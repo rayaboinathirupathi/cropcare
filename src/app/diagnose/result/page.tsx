@@ -8,6 +8,7 @@ import { CropDiagnosisResponse } from '@/types';
 import { DosageCalculatorWidget } from '@/components/DosageCalculatorWidget';
 import { AudioNarrationButton } from '@/components/AudioNarrationButton';
 import { DisclaimerBanner } from '@/components/DisclaimerBanner';
+import { generateMultilingualAudioScripts } from '@/services/voiceScriptGenerator';
 import { 
   CheckCircle2, 
   AlertTriangle, 
@@ -18,11 +19,11 @@ import {
   ShieldCheck, 
   Bug, 
   Leaf, 
-  Sparkles,
-  HelpCircle,
-  ThumbsUp,
-  ThumbsDown,
-  RotateCcw
+  Sparkles, 
+  HelpCircle, 
+  ThumbsUp, 
+  ThumbsDown, 
+  RotateCcw 
 } from 'lucide-react';
 
 export default function DiagnosisResultPage() {
@@ -136,31 +137,27 @@ function DiagnosisResultContent() {
   const primaryHypothesis = diagnosis.diagnoses[0];
   const isHealthy = primaryHypothesis?.conditionType === 'healthy';
 
-  // Construct text for audio speech synthesis (TTS)
-  const narrationScript = `Crop assessment report. Identified crop: ${diagnosis.crop.name || 'Plant'}. ` +
-    `Likely condition: ${primaryHypothesis.condition}. Confidence level: ${primaryHypothesis.confidence}. ` +
-    `Key symptoms: ${primaryHypothesis.evidence.join('. ')}. ` +
-    `Recommended action: ${diagnosis.managementRecommendations[0]?.action || 'Inspect field carefully'}. ` +
-    `Always observe official CIBRC label directions and wear protective gear.`;
+  // Construct authentic multi-language audio scripts (English, Telugu, and Hindi)
+  const audioScripts = generateMultilingualAudioScripts(diagnosis);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Top back & actions toolbar */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white px-3 py-2 rounded-xl border border-slate-200"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white px-3 py-2 rounded-xl border border-slate-200 self-start"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>New Check</span>
         </Link>
 
         <div className="flex items-center gap-2">
-          <AudioNarrationButton textToSpeak={narrationScript} />
+          <AudioNarrationButton scripts={audioScripts} />
           <button
             type="button"
             onClick={handlePrint}
-            className="p-2 text-slate-600 hover:text-slate-900 bg-white rounded-xl border border-slate-200 text-xs font-semibold flex items-center gap-1"
+            className="p-2.5 text-slate-600 hover:text-slate-900 bg-white rounded-xl border border-slate-200 text-xs font-semibold flex items-center gap-1 shadow-2xs"
             title="Print report"
           >
             <Printer className="w-4 h-4" />
