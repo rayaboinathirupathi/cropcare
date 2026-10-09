@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+}
+
+body {
+  color: #1f2937;
+  background-color: #f8fafc;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* High contrast mode for outdoor sunlight readability */
+body.high-contrast {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.high-contrast .border-slate-200 {
+  border-color: #000000;
+}
+
+/* Large text mode for accessibility */
+body.large-text {
+  font-size: 1.15rem;
+}
+
+/* Accessible focus outline */
+:focus-visible {
+  outline: 2px solid #16a34a;
+  outline-offset: 2px;
+}
+
+/* Smooth mobile touch scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
+}
